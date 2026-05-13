@@ -1,7 +1,7 @@
 <?php
 
 /** MySQL hostname */
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'mysql://root:rfGkpfsPplPvRrMPoczkiHhkiQHQCEfb@yamanote.proxy.rlwy.net:35675/railway');
 
 /** MySQL database username */
 
@@ -9,11 +9,11 @@ define('DB_USER', 'root');
 
 /** MySQL database password */
 
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'rfGkpfsPplPvRrMPoczkiHhkiQHQCEfb');
 
 /** MySQL database name */
 
-define('DB_NAME', 'te');
+define('DB_NAME', 'railway');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8mb4');
