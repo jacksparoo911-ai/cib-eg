@@ -41,9 +41,9 @@
         $this->dbh = new PDO($dsn, $this->user, $this->pass, $this->options);
       }
       // Catch any errors
-      catch (PDOException $e) {
-        $this->error = $e->getMessage();
-      }
+     catch (PDOException $e) {
+    die($e->getMessage());
+}
 
     }
 
