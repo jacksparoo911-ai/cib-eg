@@ -4,7 +4,12 @@ WORKDIR /app
 
 COPY . .
 
-RUN apt-get update && apt-get install -y unzip git
+RUN apt-get update && apt-get install -y \
+    unzip \
+    git \
+    default-mysql-client
+
+RUN docker-php-ext-install pdo pdo_mysql
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
