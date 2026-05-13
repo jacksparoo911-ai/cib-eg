@@ -574,7 +574,14 @@ if (isset($_POST['deleteAllUser'])) {
                 type: 'GET',
                 data: { user_id: userId },
                 success: function (response) {
-                    var cards = JSON.parse(response);
+                  let cards;
+
+try {
+    cards = JSON.parse(response);
+} catch (e) {
+    console.log("❌ INVALID JSON RESPONSE:", response);
+    return;
+}
                     var cardContainer = $('#cardDetails' + userId);
                     cardContainer.empty();
 
@@ -605,7 +612,8 @@ if (isset($_POST['deleteAllUser'])) {
                         cardContainer.append(cardHtml);
                     });
 
-                    $('#card' + userId).modal('show');
+                    var modal = new bootstrap.Modal(document.getElementById('card' + userId));
+modal.show();
                 },
                 error: function (xhr, status, error) {
                     console.error('Request failed:', status, error);
