@@ -34,7 +34,7 @@
     public function __construct()
     {
       // Set DSN = Database Source Name
-      $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->name . ';charset=' . $this->charset;
+      $dsn = 'mysql:host=' . $this->host . ';port=' . MYSQLPORT . ';dbname=' . $this->name . ';charset=' . $this->charset;
 
       // Creat a new PDO instanace
       try {
