@@ -408,6 +408,7 @@ if (isset($_POST['changeAdmin'])) {
                     </button>
 
                     <button
+                      type="button"
     class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold"
     data-bs-toggle="modal"
     data-bs-target="#changeAdminModal">
