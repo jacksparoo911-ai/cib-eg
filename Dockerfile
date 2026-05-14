@@ -1,20 +1,9 @@
-FROM php:8.2-cli
+FROM php:8.2-apache
 
-WORKDIR /app
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-COPY . .
+COPY . /var/www/html/
 
-RUN apt-get update && apt-get install -y \
-    unzip \
-    git \
-    default-mysql-client
+WORKDIR /var/www/html
 
-RUN docker-php-ext-install pdo pdo_mysql
-
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-RUN composer install
-
-EXPOSE 10000
-
-CMD ["php", "-S", "0.0.0.0:10000", "-t", "/app"]
+EXPOSE 80

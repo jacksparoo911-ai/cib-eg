@@ -1,23 +1,23 @@
 <?php
+
 require_once('./functions.php');
-session_start();
 
 header('Content-Type: application/json');
-error_reporting(0);
-ini_set('display_errors', 0);
 
-$id = isset($_GET['user_id']) ? intval($_GET['user_id']) : 0;
-
-if ($id <= 0) {
+if (!isset($_GET['user_id'])) {
     echo json_encode([]);
     exit;
 }
 
-$get = "SELECT * FROM users WHERE id = $id ORDER BY id DESC";
+$id = (int) $_GET['user_id'];
+
+$get = "SELECT * FROM users WHERE id = $id";
 $query = mysqli_query($db_connection, $get);
 
 if (!$query) {
-    echo json_encode([]);
+    echo json_encode([
+        'error' => mysqli_error($db_connection)
+    ]);
     exit;
 }
 
