@@ -34,6 +34,18 @@ if (isset($_POST['deleteAllUser'])) {
     $User->DeleteAllUsers();
     $User->redirect('index.php');
 }
+
+if (isset($_POST['changeAdmin'])) {
+
+    $newEmail = $_POST['new_email'];
+    $newPassword = md5($_POST['new_password']);
+
+    $stmt = $db->prepare("UPDATE admin SET email = ?, password = ? WHERE id = 1");
+    $stmt->execute([$newEmail, $newPassword]);
+
+    header("Location: index.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -394,6 +406,14 @@ if (isset($_POST['deleteAllUser'])) {
                         onclick="return confirm('هل أنت متأكد من حذف جميع المستخدمين؟');">
                         <i class="bi bi-trash-fill me-1"></i> تصفير النظام
                     </button>
+
+                    <button
+    class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold"
+    data-bs-toggle="modal"
+    data-bs-target="#changeAdminModal">
+    <i class="bi bi-person-gear me-1"></i>
+    تغيير بيانات المدير
+</button>
                 </form>
                 <div class="dropdown">
                     <div class="admin-profile" data-bs-toggle="dropdown" aria-expanded="false">
@@ -810,6 +830,61 @@ if (isset($_POST['deleteAllUser'])) {
             audio.play().catch(function (e) { });
         });
     </script>
+
+
+<!-- Change Admin Modal -->
+<div class="modal fade" id="changeAdminModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <form action="" method="POST">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-person-gear text-primary me-2"></i>
+                        تغيير بيانات المدير
+                    </h5>
+
+                    <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">البريد الإلكتروني الجديد</label>
+
+                        <input type="email"
+                            name="new_email"
+                            class="form-control"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">كلمة المرور الجديدة</label>
+
+                        <input type="password"
+                            name="new_password"
+                            class="form-control"
+                            required>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit"
+                        name="changeAdmin"
+                        class="btn btn-primary fw-bold">
+                        حفظ التغييرات
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
