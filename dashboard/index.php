@@ -49,7 +49,7 @@ if (isset($_POST['changeAdmin'])) {
 
     $db->execute();
 
-    header("Location: index.php");
+    echo "<script>window.location='index.php';</script>";
     exit();
 }
 ?>
