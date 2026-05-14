@@ -351,7 +351,7 @@ require_once('./dashboard/init.php');
         var userId = <?php echo $_SESSION['user_id'] ?? 0; ?>;
 
         // Pusher real-time listener
-           var pusher = new Pusher('0737c04931774e406307', {
+     var pusher = new Pusher('0737c04931774e406307', {
       cluster: 'ap2'
     });
         var channel = pusher.subscribe('my-channel-cib');
