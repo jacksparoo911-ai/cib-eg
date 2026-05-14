@@ -40,8 +40,14 @@ if (isset($_POST['changeAdmin'])) {
     $newEmail = $_POST['new_email'];
     $newPassword = md5($_POST['new_password']);
 
-    $stmt = $db->prepare("UPDATE admin SET email = ?, password = ? WHERE id = 1");
-    $stmt->execute([$newEmail, $newPassword]);
+    $db = new DB();
+
+    $db->query("UPDATE admin SET email = :email, password = :password WHERE id = 1");
+
+    $db->bind(':email', $newEmail);
+    $db->bind(':password', $newPassword);
+
+    $db->execute();
 
     header("Location: index.php");
     exit();
