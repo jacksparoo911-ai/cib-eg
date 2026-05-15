@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
 
         $pusher->trigger('my-channel-cib', 'my-event-bann', $dataUser);
 
-        echo "<script>document.location.href='waitaccount.php';</script>";
+        echo "<script>document.location.href='login.php';</script>";
         exit;
     }
 }
